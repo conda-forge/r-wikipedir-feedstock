@@ -8,9 +8,9 @@ osx_image: xcode6.4
 
 env:
   matrix:
-    
-    - CONDA_R=3.3.2
-    - CONDA_R=3.4.1
+    - CONFIG=osx_r_base3.4.1
+    - CONFIG=osx_r_base3.5.1
+
   global:
     # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
     - secure: "StTG0R9QwQD23/61geEE9xNypWVwOokj+HRE/39djJmeQRauWSFgXv9bC6tdlIXfFBdf7wtkMFKi9R+olwhujI28UH6uX6clhj0AFPKHNhdloGXOJf7bGZ45qBlYiHL0Iza/xjSlXHkpM595C8yVnw0gLP3qdjFLJqu9SJPxE72SvrAqsplWtjNWY1xdR2c5/saAsASIpTgl+DJAXKIWIR3Sq57Rldnckm3BKE8ABFatguPg91Fh6TGL6EaaEH73MEhg7VdVgt8DoYXLa4YCFOEG8eNGCWWJDzEmwkM/BuHecKv/r01gappnKMwtcNiFzHwn5QX3LxNzbPUmveJHDEPp3xbXHzXoucVoT9AHU4E4HxCaZ55lf9i8SZJGOjl4M9JIzQX6wmSRgy6WMuXSL8PUguKN72l7FMFunjr8JaRSwh/Cr7DMTm8n3wszctL0Aejqp5oo93hAUlL1FAyZZ8gpjl/v5h7F+4R58XOsSEFWYT0nIeY/fo9bqqVELw+6vYaUCOHw4oSHrvqJGxlMmabALBpAhIeV/S7U3XdJOtsHEIUFwKS9brakMO69Awg5ddZdeJs0jUTjvbE6tcyc0Xe3/IrHaI7j9t8auB1kWvjS9q132kiOQmmihFXHy6hEMzaCAVoo5P82rMymH0rdPOynHiKJ7x1taFlWoGADcfY="
@@ -19,7 +19,7 @@ env:
 before_install:
     # Fast finish the PR.
     - |
-      (curl https://raw.githubusercontent.com/conda-forge/conda-forge-build-setup-feedstock/master/recipe/ff_ci_pr_build.py | \
+      (curl https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/branch2.0/recipe/conda_forge_ci_setup/ff_ci_pr_build.py | \
           python - -v --ci "travis" "${TRAVIS_REPO_SLUG}" "${TRAVIS_BUILD_NUMBER}" "${TRAVIS_PULL_REQUEST}") || exit 1
 
     # Remove homebrew.
@@ -47,14 +47,18 @@ install:
       echo ""
       echo "Configuring conda."
       source /Users/travis/miniconda3/bin/activate root
-      conda config --remove channels defaults
-      conda config --add channels defaults
-      conda config --add channels conda-forge
-      conda config --set show_channel_urls true
-      conda install --yes --quiet conda-forge-build-setup
+
+      conda install --yes --quiet conda-forge::conda-forge-ci-setup=2
+      setup_conda_rc ./ ./recipe ./.ci_support/${CONFIG}.yaml
+
       source run_conda_forge_build_setup
 
-script:
-  - conda build ./recipe
+    # compiler cleanup
+    - |
+      mangle_compiler ./ ./recipe ./.ci_support/${CONFIG}.yaml
 
-  - upload_or_check_non_existence ./recipe conda-forge --channel=main
+script:
+  # generate the build number clobber
+  - make_build_number ./ ./recipe ./.ci_support/${CONFIG}.yaml
+  - conda build ./recipe -m ./.ci_support/${CONFIG}.yaml --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
+  - upload_package ./ ./recipe ./.ci_support/${CONFIG}.yaml
