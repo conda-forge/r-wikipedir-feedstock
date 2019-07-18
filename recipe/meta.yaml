@@ -45,5 +45,4 @@ about:
 extra:
   recipe-maintainers:
     - conda-forge/r
-    - dpryan79
     - ocefpaf
