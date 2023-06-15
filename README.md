@@ -1,11 +1,11 @@
-About r-wikipedir
-=================
+About r-wikipedir-feedstock
+===========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/r-wikipedir-feedstock/blob/main/LICENSE.txt)
 
 Home: https://cran.r-project.org/web/packages/WikipediR
 
 Package license: MIT
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/r-wikipedir-feedstock/blob/main/LICENSE.txt)
 
 Summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production' wikis, such as Wikipedia. It can be used to retrieve page text, information about users or the history of pages, and elements of the category tree.
 
