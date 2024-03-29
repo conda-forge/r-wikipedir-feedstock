@@ -1,4 +1,4 @@
-{% set version = '1.5.0' %}
+{% set version = "1.7.0" %}
 
 package:
   name: r-wikipedir
@@ -9,11 +9,11 @@ source:
   url:
     - https://cran.r-project.org/src/contrib/WikipediR_{{ version }}.tar.gz
     - https://cran.r-project.org/src/contrib/Archive/WikipediR/WikipediR_{{ version }}.tar.gz
-  sha256: f8d0e6f04fb65f7ad9c1c068852a6a8b699ffe8d39edf1f3fa07d32d087e8ff0
+  sha256: e5fbfafdf08e2c912a38557b903948df636cbcc956d5f0aeef20f78031c69f82
 
 build:
   noarch: generic
-  number: 1005
+  number: 0
   script: R CMD INSTALL --build .
   rpaths:
     - lib/R/lib/
@@ -38,9 +38,7 @@ about:
   home: https://cran.r-project.org/web/packages/WikipediR
   license: MIT
   license_file: LICENSE
-  summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production'
-    wikis, such as Wikipedia. It can be used to retrieve page text, information about
-    users or the history of pages, and elements of the category tree.
+  summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production' wikis, such as Wikipedia. It can be used to retrieve page text, information about users or the history of pages, and elements of the category tree.
 
 extra:
   recipe-maintainers:
