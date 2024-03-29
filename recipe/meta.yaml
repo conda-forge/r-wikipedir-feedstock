@@ -5,15 +5,15 @@ package:
   version: {{ version }}
 
 source:
-  fn: WikipediR_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/WikipediR_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/WikipediR/WikipediR_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/WikipediR_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/WikipediR/WikipediR_{{ version }}.tar.gz
   sha256: e5fbfafdf08e2c912a38557b903948df636cbcc956d5f0aeef20f78031c69f82
 
 build:
-  noarch: generic
+  merge_build_host: True  # [win]
   number: 0
+  noarch: generic
   script: R CMD INSTALL --build .
   rpaths:
     - lib/R/lib/
@@ -21,24 +21,34 @@ build:
 
 requirements:
   build:
+    - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+  host:
     - r-base
     - r-httr
     - r-jsonlite
+    - r-magrittr
   run:
     - r-base
     - r-httr
     - r-jsonlite
+    - r-magrittr
 
 test:
   commands:
-    - $R -e "library('WikipediR')"  # [not win]
+    - $R -e "library('WikipediR')"           # [not win]
     - "\"%R%\" -e \"library('WikipediR')\""  # [win]
 
 about:
-  home: https://cran.r-project.org/web/packages/WikipediR
+  home: https://github.com/Ironholds/WikipediR/
   license: MIT
-  license_file: LICENSE
-  summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production' wikis, such as Wikipedia. It can be used to retrieve page text, information about users or the history of pages, and elements of the category tree.
+  summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production'
+    wikis, such as Wikipedia. It can be used to retrieve page text, information about
+    users or the history of pages, and elements of the category tree.
+  license_family: MIT
+  license_file:
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/MIT'
+    - LICENSE
 
 extra:
   recipe-maintainers:
