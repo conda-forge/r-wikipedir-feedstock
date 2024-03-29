@@ -3,7 +3,7 @@ About r-wikipedir-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/r-wikipedir-feedstock/blob/main/LICENSE.txt)
 
-Home: https://cran.r-project.org/web/packages/WikipediR
+Home: https://github.com/Ironholds/WikipediR/
 
 Package license: MIT
 
