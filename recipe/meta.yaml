@@ -1,4 +1,4 @@
-{% set version = "1.7.0" %}
+{% set version = "1.7.1" %}
 
 package:
   name: r-wikipedir
@@ -8,10 +8,10 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/WikipediR_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/WikipediR/WikipediR_{{ version }}.tar.gz
-  sha256: e5fbfafdf08e2c912a38557b903948df636cbcc956d5f0aeef20f78031c69f82
+  sha256: 6ee69561f304edf13c67b4cabca3688eaf1b8b10acf82257c39b351aa91bb222
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: true  # [win]
   number: 0
   noarch: generic
   script: R CMD INSTALL --build .
@@ -42,9 +42,7 @@ test:
 about:
   home: https://github.com/Ironholds/WikipediR/
   license: MIT
-  summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production'
-    wikis, such as Wikipedia. It can be used to retrieve page text, information about
-    users or the history of pages, and elements of the category tree.
+  summary: A wrapper for the MediaWiki API, aimed particularly at the Wikimedia 'production' wikis, such as Wikipedia. It can be used to retrieve page text, information about users or the history of pages, and elements of the category tree.
   license_family: MIT
   license_file:
     - '{{ environ["PREFIX"] }}/lib/R/share/licenses/MIT'
